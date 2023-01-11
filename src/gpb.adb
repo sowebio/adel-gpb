@@ -48,6 +48,9 @@
 --  @versions
 --  20211213 - 0.1 - sr - initial release
 --  20220422 - 0.2 - sr - add many checks and errors messages
+--  20220609 - 0.3 - sr - add gprbuild_org and gnatgpr existence checks
+--  20220716 - 0.4 - sr - fixes a division by zero time bug because the fiber
+--                        speed is too fast here ;)
 ------------------------------------------------------------------------------
 
 with Ada.Calendar;
@@ -71,6 +74,7 @@ procedure Gpb is
    Gprbuild_Gpb_Beep : VString := +"bell";
    Gprbuild_Binary_Orig : VString := +"";
    Gprbuild_Binary_Dest : VString := +"";
+   Gprbuild_Time : Natural := 0;
 
    SE_Result : Integer := 0;
 
@@ -90,12 +94,13 @@ begin
 
    Sys.Set_Memory_Monitor (True);
 
-   Prg.Set_Version (0, 2);
+   Prg.Set_Version (0, 4);
    Log.Set_Display(True);
 
    Log.Line;
-   Log.Msg (+"Gprbuild stub for GnatStudio - " & Prg.Get_Version);
+   Log.Msg (+"Gprbuild stub for GnatStudio");
    Log.Msg (+"Copyright (C) Sowebio SARL 2020-2022, according to GPLv3.");
+   Log.Msg (Prg.Get_Version & " - " & v20.Get_Version & " - " & v20.Get_Build);
    Log.Line;
 
    ----------------------------------------------------------------------------
@@ -127,59 +132,77 @@ begin
    --  Build binary by calling the real gprbuild
    ----------------------------------------------------------------------------
 
-   Sys.Shell_Execute ("gprbuild_org " & Gprbuild_Parameters, SE_Result);
-   if SE_Result = 0 then
+   if Sys.Is_Command (+"gprbuild_org") then
 
-      Beep_Console;
+      Sys.Shell_Execute (Sys.Command_Path (+"gprbuild_org") & " " & Gprbuild_Parameters, SE_Result);
+      if SE_Result = 0 then
 
-      if not ((Index ( Gprbuild_Parameters, "-c") > 0) or
-              (Index ( Gprbuild_Parameters, "-u") > 0)) then
+         Beep_Console;
 
-         Sys.Shell_Execute (+"gnatgpr -b " & Gprbuild_Project, SE_Result, Gprbuild_Binary_Orig);
-         if SE_Result = 0 then
+         if not ((Index ( Gprbuild_Parameters, "-c") > 0) or
+                   (Index ( Gprbuild_Parameters, "-u") > 0)) then
 
-            Log.Line;
-            Log.Msg ("Gprbuild_Binary_Orig: " & Gprbuild_Binary_Orig);
+            if Sys.Is_Command (+"gnatgpr") then
 
-            if not (Vst.Empty (Gprbuild_Binary_Orig)) then
+               -- Get path of builded binary
+               Sys.Shell_Execute (Sys.Command_Path (+"gnatgpr") & " -b " & Gprbuild_Project, SE_Result, Gprbuild_Binary_Orig);
+               if SE_Result = 0 then
 
-               if not (Vst.Empty (Gprbuild_Gpb_Scp)) then
+                  if not Empty (Gprbuild_Binary_Orig) then
 
-                  Gprbuild_Binary_Dest := Gprbuild_Gpb_Scp & "/" & Tail_After_Match (Gprbuild_Binary_Orig, '/');
-                  Log.Msg ("Gprbuild_Binary_Dest: " & Gprbuild_Binary_Dest);
-                  Log.Line;
+                     Log.Line;
+                     Log.Msg ("Gprbuild_Binary_Orig: " & Gprbuild_Binary_Orig);
+
+                     if not  Empty (Gprbuild_Gpb_Scp) then
+
+                        Gprbuild_Binary_Dest := Gprbuild_Gpb_Scp & "/" & Tail_After_Match (Gprbuild_Binary_Orig, '/');
+                        Log.Msg ("Gprbuild_Binary_Dest: " & Gprbuild_Binary_Dest);
+                        Log.Line;
 
    ----------------------------------------------------------------------------
    --  Scp copy if needed
    ----------------------------------------------------------------------------
 
-                  Log.Msg ("SCP copy (" & To_VString (Fls.File_Size (Gprbuild_Binary_Orig)/1000) & "Kb) in progress...");
-                  Start_Time_SCP := Ada.Calendar.Clock;
+                        Log.Msg ("SCP copy (" & To_VString (Fls.File_Size (Gprbuild_Binary_Orig)/1000) & "Kb) in progress...");
+                        Start_Time_SCP := Ada.Calendar.Clock;
 
-                  Sys.Shell_Execute ("scp -q " & Gprbuild_Binary_Orig & " " & Gprbuild_Gpb_Scp, SE_Result);
-                  if SE_Result = 0 then
-                     Log.Msg ("SCP copy (" & To_VString (Prg.Duration_Stamp_Seconds (Start_Time_SCP)) & "s @ " &
-                     To_VString ((Fls.File_Size (Gprbuild_Binary_Orig) / Prg.Duration_Stamp_Seconds (Start_Time_SCP))/1000) &
-                     "Kbps) successful.");
-                     Beep_Console;
-                  else
-                     Log.Err ("Error: scp copy not successful: check your ssh configuration and/or you connection");
+                        Sys.Shell_Execute ("scp -q " & Gprbuild_Binary_Orig & " " & Gprbuild_Gpb_Scp, SE_Result);
+                        if SE_Result = 0 then
+
+                           --  Division by zero protection when FTTx is too fast :)
+                           Gprbuild_Time := Prg.Duration_Stamp_Seconds (Start_Time_SCP);
+                           Gprbuild_Time := (if Gprbuild_Time > 0 then Gprbuild_Time else 1);
+
+                           Log.Msg ("SCP copy (" & To_VString (Prg.Duration_Stamp_Seconds (Start_Time_SCP)) & "s @ " &
+                                      To_VString ((Fls.File_Size (Gprbuild_Binary_Orig) / Gprbuild_Time)/1000) &
+                                      "Kbps) successful.");
+                           Beep_Console;
+                        else
+                           Log.Err ("Error: scp copy not successful (code=" & Trim_Left (To_VString (SE_Result)) & ")");
+                        end if;
+                     end if;
                   end if;
-
+               else
+                  Log.Line;
+                  Log.Err ("Error: gnatgpr command not successful (code=" & Trim_Left (To_VString (SE_Result)) & ")");
+                  Log.Err ("gnatgpr command: " & Sys.Command_Path (+"gnatgpr") & " -b " & Gprbuild_Project);
+                  --Log.Err ("gnatgpr output: " & Gprbuild_Binary_Orig);
                end if;
+            else
+               Log.Line;
+               Log.Err ("Error: gnatgpr not found");
             end if;
-            Log.Line;
-         else
-            Log.Line;
-            Log.Err ("Error: gnatgpr not found");
-            Log.Line;
          end if;
+      else
+         Log.Line;
+         Log.Err ("Error: gprbuild_org command not successful");
       end if;
    else
       Log.Line;
       Log.Err ("Error: gprbuild_org not found");
-      Log.Line;
    end if;
+
+   Log.Line;
 
 exception
 

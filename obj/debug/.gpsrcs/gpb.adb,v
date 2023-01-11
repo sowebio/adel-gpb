@@ -1,0 +1,1299 @@
+head	1.36;
+access;
+symbols;
+locks; strict;
+comment	@-- @;
+
+
+1.36
+date	2021.12.14.15.00.45;	author sr;	state Exp;
+branches;
+next	1.35;
+
+1.35
+date	2021.12.14.14.58.42;	author sr;	state Exp;
+branches;
+next	1.34;
+
+1.34
+date	2021.12.14.14.51.04;	author sr;	state Exp;
+branches;
+next	1.33;
+
+1.33
+date	2021.12.14.14.50.01;	author sr;	state Exp;
+branches;
+next	1.32;
+
+1.32
+date	2021.12.14.14.48.02;	author sr;	state Exp;
+branches;
+next	1.31;
+
+1.31
+date	2021.12.14.14.46.39;	author sr;	state Exp;
+branches;
+next	1.30;
+
+1.30
+date	2021.12.14.14.44.38;	author sr;	state Exp;
+branches;
+next	1.29;
+
+1.29
+date	2021.12.14.14.44.26;	author sr;	state Exp;
+branches;
+next	1.28;
+
+1.28
+date	2021.12.14.14.42.27;	author sr;	state Exp;
+branches;
+next	1.27;
+
+1.27
+date	2021.12.14.14.42.08;	author sr;	state Exp;
+branches;
+next	1.26;
+
+1.26
+date	2021.12.14.14.38.31;	author sr;	state Exp;
+branches;
+next	1.25;
+
+1.25
+date	2021.12.14.14.30.51;	author sr;	state Exp;
+branches;
+next	1.24;
+
+1.24
+date	2021.12.14.14.30.20;	author sr;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	2021.12.14.14.29.52;	author sr;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	2021.12.14.14.17.55;	author sr;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	2021.12.14.14.11.46;	author sr;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	2021.12.14.14.06.33;	author sr;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	2021.12.14.14.04.19;	author sr;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	2021.12.14.14.02.59;	author sr;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	2021.12.14.14.01.23;	author sr;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2021.12.14.14.01.06;	author sr;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2021.12.14.13.56.56;	author sr;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2021.12.14.13.54.49;	author sr;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2021.12.14.13.54.29;	author sr;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2021.12.14.13.52.54;	author sr;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2021.12.14.13.52.11;	author sr;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2021.12.14.11.56.48;	author sr;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2021.12.14.11.48.30;	author sr;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2021.12.14.11.29.49;	author sr;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2021.12.14.11.28.17;	author sr;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2021.12.14.11.27.09;	author sr;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2021.12.14.11.25.47;	author sr;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2021.12.14.11.24.40;	author sr;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2021.12.14.11.23.54;	author sr;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2021.12.14.11.21.06;	author sr;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2021.12.13.17.13.29;	author sr;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.36
+log
+@*** empty log message ***
+@
+text
+@------------------------------------------------------------------------------
+--  ▖▖▄▖▄▖
+--  ▌▌▄▌▛▌
+--  ▚▘▙▖█▌
+--
+--  @@file      gpb.adb
+--  @@copyright See authors list below and v20.copyrights file
+--  @@licence   GPL v3
+--  @@encoding  UTF-8
+------------------------------------------------------------------------------
+--  @@summary
+--  V20 network copy of the build binary after compilation with bell
+--  From an idea of David Sauvage - david.sauvage@@adalabs.com, author
+--  of https://gitlab.com/adalabs/gnatgpr
+--
+--  @@description
+--
+--  Terminates the end of a successful build with a sound. If the -XScp_Path=
+--  parameter is set, copies the binary accordingly to the destination scp path.
+--  A second sound will be emitted after the end of the scp copy (useful with
+--  slow links).
+--
+--  Example of build string (with a ready SSH key):
+--  %builder -Xaide_Build=Debug -XGpb_Scp=root@@host.domain.tld:/usr/local/bin -d %eL -P%PP %config %autoconf %X -s
+--
+--  Which is translated as follows:
+--  gprbuild -Xaide_Build=Debug -XGpb_Scp=root@@host.domain.tld:/usr/local/bin -d -P/home/sr/Seafile/Sowebio/informatique/github/gpb/gpb.gpr -s
+--
+--  Extra option: -XGpb_Beep=off|ansi|[bell] ansi=console beep, bell=neat paplay bell (default).
+--
+--  HowTo
+--  Rename ~/gnat-20xx/bin/gprbuild to gprbuild_exe
+--  Copy ~/gpb/bin/gprbuild to ~/gnat-20xx/bin
+--
+--  Dependencies : gnatgpr (come as standard with AIDE), build reminder:
+--  cd ~/opt/gnat-2021-downloads
+--  git clone https://gitlab.com/adalabs/gnatgpr
+--  cd gnatgpr
+--  gprbuild -d -Pgnatgpr-bin.gpr -XLIBRARY_TYPE=static -XLANGKIT_SUPPORT_LIBRARY_TYPE=static \
+--  -XLIBADALANG_LIBRARY_TYPE=static -XGPR_BUILD=static -XXMLADA_BUILD=static \
+--  -XGNATCOLL_CORE_BUILD=static -XGNATCOLL_BUILD=static -XEnv=Production -s
+--  cp binaries/gnatgpr ~/opt/gnat-2021/bin
+--
+--  @@authors
+--  David Sauvage - ds - david.sauvage@@adalabs.com bash release (author)
+--  Stéphane Rivière - sr - sriviere@@soweb.io
+--
+--  @@versions
+--  20211213 - 0.1 - sr - initial release
+------------------------------------------------------------------------------
+
+with Ada.Calendar;
+with Ada.Command_Line;
+
+with v20; use v20;
+with v20.Fls;
+with v20.Log;
+with v20.Prg;
+with v20.Tio;
+with v20.Sys;
+with v20.Vst; use v20.Vst;
+
+procedure Gpb is
+
+   package ACL renames Ada.Command_Line;
+
+   Gprbuild_Parameters : VString := +"";
+   Gprbuild_Project : VString := +"";
+   Gprbuild_Gpb_Scp : VString := +"";
+   Gprbuild_Gpb_Beep : VString := +"bell";
+   Gprbuild_Binary_Orig : VString := +"";
+   Gprbuild_Binary_Dest : VString := +"";
+
+   SE_Result : Integer := 0;
+
+   Start_Time_SCP : Ada.Calendar.Time;
+
+   procedure Beep_Console is
+   begin
+      if (Gprbuild_Gpb_Beep = "ansi") then
+         Tio.Beep;
+      elsif (Gprbuild_Gpb_Beep = "bell") then
+         -- paplay & freedesktop sounds come as standard on Ubuntu 18.04 LTS
+         Sys.Shell_Execute ( +"paplay /usr/share/sounds/freedesktop/stereo/complete.oga");
+      end if;
+   end Beep_Console;
+
+begin
+
+   Sys.Set_Memory_Monitor (True);
+
+   Prg.Set_Version (0, 1);
+
+   Log.Line;
+   Log.Msg (+"Gprbuild stub for GnatStudio - " & Prg.Get_Version);
+   Log.Msg (+"Copyright (C) Sowebio SARL 2020-2021, according to GPLv3.");
+   Log.Line;
+
+   ----------------------------------------------------------------------------
+   --  Get parameters, extract and/or remove some specials ones
+   ----------------------------------------------------------------------------
+
+   for A in 1 .. ACL.Argument_Count loop
+      if (Vst.Index ( To_VString (ACL.Argument (A)), +"-P") = 1) then
+         Gprbuild_Project := Slice ( To_VString (ACL.Argument (A)), 3, Vst.Length (To_VString (ACL.Argument (A))) );
+         Gprbuild_Parameters := Gprbuild_Parameters & ACL.Argument (A) & " ";
+      elsif (Vst.Index ( To_VString (ACL.Argument (A)), +"-XGpb_Scp=") = 1) then
+         Gprbuild_Gpb_Scp := Slice ( To_VString (ACL.Argument (A)), 11, Vst.Length (To_VString (ACL.Argument (A))) );
+      elsif (Vst.Index ( To_VString (ACL.Argument (A)), +"-XGpb_Beep=") = 1) then
+         Gprbuild_Gpb_Beep := Slice ( To_VString (ACL.Argument (A)), 12, Vst.Length (To_VString (ACL.Argument (A))) );
+      else
+         Gprbuild_Parameters := Gprbuild_Parameters & ACL.Argument (A) & " ";
+      end if;
+   end loop;
+
+   Log.Set_Debug (True);
+
+   Log.Dbg ("Gprbuild_Parameters: " & Gprbuild_Parameters);
+   Log.Dbg ("Gprbuild_Project: " & Gprbuild_Project);
+   Log.Dbg ("Gprbuild_Gpb_Scp: " & Gprbuild_Gpb_Scp);
+   Log.Dbg ("Gprbuild_Gpb_Beep: " & Gprbuild_Gpb_Beep);
+   Log.Line;
+
+   ----------------------------------------------------------------------------
+   --  Build binary by calling the real gprbuild
+   ----------------------------------------------------------------------------
+
+   Sys.Shell_Execute ("gprbuild_exe " & Gprbuild_Parameters, SE_Result);
+   if SE_Result = 0 then
+
+      Beep_Console;
+
+      if not ((Index ( Gprbuild_Parameters, "-c") > 0) or
+              (Index ( Gprbuild_Parameters, "-u") > 0)) then
+
+         Sys.Shell_Execute (+"gnatgpr -b " & Gprbuild_Project, SE_Result, Gprbuild_Binary_Orig);
+         if SE_Result = 0 then
+
+            Log.Line;
+            Log.Dbg ("Gprbuild_Binary_Orig: " & Gprbuild_Binary_Orig);
+
+            if not (Vst.Empty (Gprbuild_Binary_Orig)) then
+
+               if not (Vst.Empty (Gprbuild_Gpb_Scp)) then
+
+                  Gprbuild_Binary_Dest := Gprbuild_Gpb_Scp & "/" & Tail_After_Match (Gprbuild_Binary_Orig, '/');
+                  Log.Dbg ("Gprbuild_Binary_Dest: " & Gprbuild_Binary_Dest);
+                  Log.Line;
+
+   ----------------------------------------------------------------------------
+   --  Scp copy if needed
+   ----------------------------------------------------------------------------
+
+                  Log.Dbg ("SCP copy (" & To_VString (Fls.File_Size (Gprbuild_Binary_Orig)/1000) & "Kb) in progress...");
+                  Start_Time_SCP := Ada.Calendar.Clock;
+
+                  Sys.Shell_Execute ("scp -q " & Gprbuild_Binary_Orig & " " & Gprbuild_Gpb_Scp);
+                  if SE_Result = 0 then
+                     Log.Dbg ("SCP copy (" & To_VString (Prg.Duration_Stamp_Seconds (Start_Time_SCP)) & "s @@ " &
+                     To_VString ((Fls.File_Size (Gprbuild_Binary_Orig) / Prg.Duration_Stamp_Seconds (Start_Time_SCP))/1000) &
+                     "Kbps) successful.");
+                     Beep_Console;
+                  end if;
+
+               end if;
+            end if;
+
+            Log.Line;
+
+         end if;
+      end if;
+   end if;
+
+exception
+
+   --  Runtime errors
+   when Error : others =>
+      v20.Exception_Handling (Error);
+
+-----------------------------------------------------------------------------
+end Gpb;
+-----------------------------------------------------------------------------
+@
+
+
+1.35
+log
+@*** empty log message ***
+@
+text
+@d159 1
+a159 1
+                     Log.Dbg ("SCP copy: " & To_VString (Prg.Duration_Stamp_Seconds (Start_Time_SCP)) & "s @@ " &
+d161 1
+a161 1
+                     "Kbps");
+@
+
+
+1.34
+log
+@*** empty log message ***
+@
+text
+@d154 1
+a154 1
+                  Log.Dbg ("SCP copy in progress...");
+d159 1
+a159 3
+                     Log.Dbg ("SCP copy time: " & To_VString (Prg.Duration_Stamp_Seconds (Start_Time_SCP)) & "s");
+                     Log.Dbg ("SCP File size: " & To_VString (Fls.File_Size (Gprbuild_Binary_Orig)/1000) & "Kb");
+                     Log.Dbg ("SCP copy rate: " &
+a161 1
+
+@
+
+
+1.33
+log
+@*** empty log message ***
+@
+text
+@d161 4
+a164 1
+                     Log.Dbg ("SCP copy rate: " & To_VString ((Fls.File_Size (Gprbuild_Binary_Orig) / Prg.Duration_Stamp_Seconds (Start_Time_SCP))/1000) & "Kbps");
+@
+
+
+1.32
+log
+@*** empty log message ***
+@
+text
+@d160 1
+a160 1
+                     Log.Dbg ("SCP File size: " & To_VString (Fls.File_Size (Gprbuild_Binary_Orig)));
+@
+
+
+1.31
+log
+@*** empty log message ***
+@
+text
+@d161 1
+a161 1
+                     Log.Dbg ("SCP copy rate: " & To_VString ((Fls.File_Size (Gprbuild_Binary_Orig) / Prg.Duration_Stamp_Seconds (Start_Time_SCP))/100 ));
+@
+
+
+1.30
+log
+@*** empty log message ***
+@
+text
+@d161 1
+a161 1
+                     Log.Dbg ("SCP copy rate: " & To_VString (Fls.File_Size (Gprbuild_Binary_Orig) / Prg.Duration_Stamp_Seconds (Start_Time_SCP)));
+@
+
+
+1.29
+log
+@*** empty log message ***
+@
+text
+@d161 1
+a161 1
+                     Log.Dbg ("SCP copy rate: " & To_VString (Fls.File_Size (Gprbuild_Binary_Orig) / Prg.Duration_Stamp_Seconds (Start_Time_SCP));
+@
+
+
+1.28
+log
+@*** empty log message ***
+@
+text
+@d160 2
+a161 2
+                     Log.Dbg ("SCP File size: " & To_VString (Fls.File_Size(Gprbuild_Binary_Orig)));
+                     --Log.Dbg ("SCP copy rate: " & To_VString (Fls.File_Size  / Prg.Duration_Stamp_Seconds (Start_Time_SCP)
+@
+
+
+1.27
+log
+@*** empty log message ***
+@
+text
+@d160 1
+a160 1
+                     Log.Dbg ("SCP File size: " & To_VString (Fls.File_Size));
+@
+
+
+1.26
+log
+@*** empty log message ***
+@
+text
+@d160 2
+@
+
+
+1.25
+log
+@*** empty log message ***
+@
+text
+@d56 1
+d159 1
+a159 1
+                     Log.Dbg ("SCP copy time: " & Prg.Duration_Stamp (Start_Time_SCP));
+@
+
+
+1.24
+log
+@*** empty log message ***
+@
+text
+@d75 1
+a75 1
+   Start_Time_SCP : constant Ada.Calendar.Time := Ada.Calendar.Clock;
+@
+
+
+1.23
+log
+@*** empty log message ***
+@
+text
+@d75 1
+a75 1
+   Start_Time_SCP : constant Ada.Calendar.Time;
+@
+
+
+1.22
+log
+@*** empty log message ***
+@
+text
+@d52 1
+d75 2
+d154 1
+d158 1
+@
+
+
+1.21
+log
+@*** empty log message ***
+@
+text
+@d144 1
+d149 2
+@
+
+
+1.20
+log
+@*** empty log message ***
+@
+text
+@d149 1
+a149 1
+                  Sys.Shell_Execute ("scp " & Gprbuild_Binary_Orig & " " & Gprbuild_Gpb_Scp);
+@
+
+
+1.19
+log
+@*** empty log message ***
+@
+text
+@d136 1
+a136 1
+            Log.Dbg ("Gprbuild_Binary: " & Gprbuild_Binary_Orig);
+d149 1
+a149 1
+                  Sys.Shell_Execute ("scp " & Gprbuild_Binary_Orig & Gprbuild_Gpb_Scp);
+@
+
+
+1.18
+log
+@*** empty log message ***
+@
+text
+@d104 1
+a104 1
+         Gprbuild_Gpb_Scp := Slice ( To_VString (ACL.Argument (A)), 12, Vst.Length (To_VString (ACL.Argument (A))) );
+d106 1
+a106 1
+         Gprbuild_Gpb_Beep := Slice ( To_VString (ACL.Argument (A)), 13, Vst.Length (To_VString (ACL.Argument (A))) );
+@
+
+
+1.17
+log
+@*** empty log message ***
+@
+text
+@d156 3
+@
+
+
+1.16
+log
+@*** empty log message ***
+@
+text
+@d153 1
+@
+
+
+1.15
+log
+@*** empty log message ***
+@
+text
+@a52 1
+--with GNAT.Strings;
+a63 1
+   --package GS renames GNAT.Strings;
+a64 1
+   --Gprbuild_Executable : VString := +"~/opt/gnat-2021/bin/gprbuild_exe";
+a72 1
+   --SE_Output : VString := +"";
+d88 1
+a88 1
+   Prg.Set_Version (0, 4);
+d91 1
+a91 1
+   Log.Msg (+"Gprbuild stub for Gnat - " & Prg.Get_Version);
+a99 1
+      Gprbuild_Parameters := Gprbuild_Parameters & ACL.Argument (A) & " ";
+d102 1
+d107 2
+d118 1
+d135 1
+@
+
+
+1.14
+log
+@*** empty log message ***
+@
+text
+@d39 3
+a41 1
+--  gprbuild -d -Pgnatgpr-bin.gpr -XLIBRARY_TYPE=static -XLANGKIT_SUPPORT_LIBRARY_TYPE=static -XLIBADALANG_LIBRARY_TYPE=static -XGPR_BUILD=static -XXMLADA_BUILD=static -XGNATCOLL_CORE_BUILD=static -XGNATCOLL_BUILD=static -XEnv=Production -s
+@
+
+
+1.13
+log
+@*** empty log message ***
+@
+text
+@d51 1
+a51 1
+with GNAT.Strings;
+d63 1
+a63 1
+   package GS renames GNAT.Strings;
+d65 1
+a65 1
+   Gprbuild_Executable : VString := +"~/opt/gnat-2021/bin/gprbuild_exe";
+d74 1
+a74 1
+   SE_Output : VString := +"";
+@
+
+
+1.12
+log
+@*** empty log message ***
+@
+text
+@a50 2
+
+--with GNAT.OS_Lib;
+a51 1
+--with Interfaces.C.Strings; use Interfaces.C.Strings;
+a53 2
+with v20.Cfg;
+with v20.Fls;
+a62 1
+  -- package GOL renames GNAT.OS_Lib;
+a64 2
+   Destination_Path : VString := +"/tmp";
+
+a72 1
+
+a75 12
+
+
+   type Animation is array (1 .. 7) of Character;
+   Progress : constant Animation := ('/', '-', '\', '|', '/', '-', '|');
+
+   --Config : GCL.Command_Line_Configuration;
+   Cursor_Animation_1 : aliased Boolean := False;
+   Cursor_Animation_2 : aliased Boolean := False;
+   Memory_Reports : aliased Boolean := False;
+   String_Option : aliased GS.String_Access;
+   Long_Option : aliased Integer := 0;
+
+d123 1
+a123 1
+   Sys.Shell_Execute (Gprbuild_Executable & " " & Gprbuild_Parameters, SE_Result);
+@
+
+
+1.11
+log
+@*** empty log message ***
+@
+text
+@d103 1
+a103 1
+         Shell_Execute ( +"paplay /usr/share/sounds/freedesktop/stereo/complete.oga");
+a139 2
+
+
+d163 4
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@d18 13
+a30 14
+
+Terminates the end of a successful build with a sound.
+If the -XScp_Path= parameter is set, copies the binary accordingly.
+A second sound will be emitted after the end of the copy
+
+Example (with a ready SSH key)
+
+
+
+%builder -Xaide_Build=Debug -XScp_Path=root@@i51c1.xxx.org:/usr/local/bin -d %eL -P%PP %config %autoconf %X -s
+gprbuild -Xaide_Build=Debug -XScp_Path=root@@i51c1.xxx.org:/usr/local/bin -d -P/home/sr/Seafile/Sowebio/informatique/github/gpb/gpb.gpr -s
+
+
+
+d32 2
+a33 5
+--  Rename gprbuild to gprbuild_exe
+--
+--  Build
+--  gnatmake -aI../hac/src gprb
+--  cp -f gprb ../../gnat-2021/bin/gprbuild
+d35 6
+a40 1
+--  Dependencies : gnatgpr (come as standard with AIDE)
+d72 1
+d76 10
+a85 1
+   Gprbuild_Scp_Path : VString := +"";
+d97 10
+d119 2
+a120 1
+   -- Get parameters, extract and/or remove some specials ones
+d123 2
+a124 2
+    Gprbuild_Parameters := Gprbuild_Parameters & ACL.Argument (A) & " ";
+    if (Vst.Index ( To_VString (ACL.Argument (A)), +"-P") = 1) then
+d126 5
+a130 3
+    elsif (Vst.Index ( To_VString (ACL.Argument (A)), +"-XScp_Path=") = 1) then
+         Gprbuild_Scp_Path := Slice ( To_VString (ACL.Argument (A)), 12, Vst.Length (To_VString (ACL.Argument (A))) );
+     end if;
+d137 2
+a138 15
+   Log.Dbg ("Gprbuild_Scp_Path: " & Gprbuild_Scp_Path);
+
+--scp gprbuild root@@i51c1.genesix.org:/root
+--Command_String : constant VString := +"scp " & File_Tx & " root@@" & Target & ":" & Directory_Rx & STD_ERR_OUT_REDIRECT;
+
+
+
+   ----------------------------------------------------------------------------
+
+   Log.Set_Header (True);
+   Log.Set_Disk (True);
+
+   Log.Msg (Sys.Get_Alloc_Ada);
+   Log.Msg (Sys.Get_Alloc_All);
+   Log.Line;
+a139 1
+   ----------------------------------------------------------------------------
+d143 1
+a143 11
+
+   Log.Set_Task ("STEP 1");
+   Log.Title ("Basic informations");
+   Log.Line;
+
+   Log.Msg ("Program name   : " & Prg.Name);
+   Log.Msg ("User home      : " & Sys.Get_Home);
+   Log.Msg ("Library version: " & v20.Get_Version);
+   Log.Msg ("A time stamp  : " & Prg.Time_Stamp);
+   Log.Line;
+
+d146 2
+a147 20
+   Log.Set_Task ("STEP 2");
+   Log.Title ("Log demo");
+   Log.Line;
+
+   Log.Msg ("This is an information message");
+   Log.Dbg ("This first debug message should not appears");
+   Log.Set_Debug (True);
+   Log.Dbg ("This is a debug message");
+   Log.Set_Debug (False);
+   Log.Dbg ("This last debug message should not appears");
+   Log.Err ("This is an error message");
+   Log.Set_Disk (False);
+   Log.Msg ("This message should not be file logged (but displayed)");
+   Log.Set_Disk (True);
+   Log.Msg ("This message should be truncated because it is really" &
+            "too long !");
+   Log.Set_Task ("TASKTRUNCATED");
+   Log.Title ("Task above and this title should be truncated it is" &
+              "really too long !");
+   Log.Line;
+d149 1
+a149 1
+   ----------------------------------------------------------------------------
+d151 2
+a152 3
+   Log.Set_Task ("STEP 3");
+   Log.Title ("Console demo - nothing will be logged");
+   Log.Line;
+d154 2
+a155 50
+   Tio.Put_Line ("Put a String at current cursor position");
+   Tio.Put_Line ("Put a Char, a String, a VString then put a new line");
+   Tio.Put ("C"); Tio.Put (" String"); Tio.Put (" Vtring"); Tio.Line;
+   Tio.Put_Line ("Move cursor forward, backward, then put a new line");
+   Tio.Put_Line ("     0    1         2         ");
+   Tio.Put_Line ("012345678901234567890123456789");
+   Tio.Cursor_Line_Forward (10); Tio.Put ("|");
+   Tio.Cursor_Line_Forward (9); Tio.Put ("|");
+   Tio.Cursor_Line_Backward (16); Tio.Put ("|");
+   Tio.Line;
+   Tio.Put_Line ("     3    1         2");
+   Tio.Put_Line ("Save cursor pos, print first line, restore pos, print");
+   Tio.Put_Line ("current line, then put a new line. Using 'clear'");
+   Tio.Put_Line ("command before running this test is recommended to");
+   Tio.Put_Line ("reset the console coordinates.");
+   Tio.Cursor_Save;
+   Tio.Cursor_Move (0, 0);
+   Tio.Put ("Command 1 : Cursor at the first line, after saving cursor");
+   Tio.Put ("coordinates and move cursor...");
+   Tio.Cursor_Restore;
+   Tio.Put_Line ("Command 2 : Cursor at the current line, after restoring");
+   Tio.Put_Line ("cursor coordinates...");
+
+   Tio.Line;
+   if Cursor_Animation_1 then
+      Tio.Put_Line ("Animation for batch processing, style 1.");
+      for I in 1 .. 20 loop
+         Tio.Put (" *");
+         Tio.Cursor_Line_Backward (1);
+         delay 0.1;
+      end loop;
+      for I in 1 .. 20 loop
+         Tio.Put ("* ");
+         Tio.Cursor_Line_Backward (3);
+         delay 0.1;
+      end loop;
+   end if;
+   if Cursor_Animation_2 then
+      Tio.Put_Line ("Animation for batch processing, style 2.");
+      for I in 1 .. 3 loop
+         Tio.Put (I * 2 * ".");
+         for J in 1 .. 7 loop
+            Tio.Put (Progress (J));
+            Tio.Cursor_Line_Backward (1);
+            delay 0.2;
+         end loop;
+         Tio.Cursor_Line_Backward (3);
+         delay 0.2;
+      end loop;
+   end if;
+d157 1
+a157 3
+   Tio.Put_Line ("Finally send a beep");
+   Tio.Beep;
+   Log.Line;
+d159 1
+a159 1
+   ----------------------------------------------------------------------------
+d161 1
+a161 19
+   Log.Set_Task ("STEP 4");
+   Log.Title ("Configuration file demo");
+   Log.Line;
+   Log.Msg ("Default name creation (prog name + .cfg)");
+   Fls.Delete_File ("test.cfg"); -- demo mode
+   if Cfg.Open then
+      Cfg.Set ("Section_1", "Parameter_11", "Value_11");
+      Cfg.Set ("Section_2", "Parameter_21", "Value_21");
+      Cfg.Set ("Section_3", "Parameter_31", "Value_31");
+      Log.Msg (+"Get Parameter_11: " &
+               Cfg.Get ("Section_1", "Parameter_11"));
+      Log.Msg (+"Get Parameter_21: " &
+               Cfg.Get ("Section_2", "Parameter_21"));
+      Log.Msg (+"Get Parameter_31: " &
+               Cfg.Get ("Section_3", "Parameter_31"));
+      Cfg.Close;
+   else
+      Prg.Set_Exit_Status (4);
+   end if;
+d163 2
+a164 62
+   Log.Msg ("Create with a custom name (custom.ini)");
+   Log.Msg ("with a more complex scheme (see test.adb)");
+   Fls.Delete_File ("custom.ini"); -- demo mode
+
+   if Cfg.Open ("custom.ini") then
+
+      Cfg.Comment ("-----------------------------------------------------");
+      Cfg.Comment ("A comment line is already write at the end of the");
+      Cfg.Comment ("configuration file. So you can write headers and");
+      Cfg.Comment ("intermediate comments to obtain a good looking");
+      Cfg.Comment ("configuration file :)");
+      Cfg.Comment ("-----------------------------------------------------");
+      Cfg.Comment ("");
+      Cfg.Comment ("Section 1 deals with blah blah...");
+      Cfg.Comment ("");
+      Cfg.Set ("Section_1", "Parameter_11", "Value_11");
+      Cfg.Set ("Section_1", "Parameter_12", "Value_12");
+      Cfg.Set ("Section_1", "Parameter_13", "Value_13");
+      Cfg.Comment ("");
+      Cfg.Comment ("Section 2 deals with blah blah...");
+      Cfg.Comment ("");
+      Cfg.Set ("Section_2", "Parameter_21", "Value_21",
+               "Only this line should stay...");
+      Cfg.Set ("Section_2", "Parameter_22", "Value_22");
+      Cfg.Set ("Section_2", "Parameter_23", "Value_23");
+      Cfg.Comment ("");
+      Cfg.Comment ("Section 3 deals with blah blah...");
+      Cfg.Comment ("");
+      Cfg.Set ("Section_3", "Parameter_31", "Value_31");
+      Cfg.Set ("Section_3", "Parameter_32", "Value_32");
+      Cfg.Set ("Section_3", "Parameter_33", "Value_33");
+      Cfg.Close;
+
+      Fls.Copy_File ("custom.ini", "custom.untouched");
+
+      if Cfg.Open ("custom.ini") then
+
+         Log.Msg (+"Get Parameter_12: " &
+                  Cfg.Get ("Section_1", "Parameter_12"));
+         Log.Msg (+"Get Parameter_22: " &
+                  Cfg.Get ("Section_2", "Parameter_22"));
+         Log.Msg (+"Get Parameter_32: " &
+                  Cfg.Get ("Section_3", "Parameter_32"));
+         Cfg.Delete ("Section_1", "Parameter_11");
+         Cfg.Delete ("Section_1", "Parameter_12");
+         Cfg.Delete ("Section_1", "Parameter_13");
+         Log.Msg ("Delete all section_1 parameters. At the");
+         Log.Msg ("deleting of the last parameter, the");
+         Log.Msg ("[section_1] line, now useless, is also");
+         Log.Msg ("deleted");
+         Cfg.Delete ("Section_3", "Parameter_31");
+         Cfg.Delete ("Section_3", "Parameter_32");
+         Cfg.Delete ("Section_3", "Parameter_33");
+         Cfg.Delete ("Section_2", "Parameter_22");
+         Cfg.Delete ("Section_2", "Parameter_23");
+         Log.Msg ("At the end of the configuration file");
+         Log.Msg ("demo, only Section_2 and parameter_21");
+         Log.Msg ("should remain");
+         Cfg.Delete ("Section_unknowed", "Parameter_22");
+         Cfg.Delete ("Section_2", "Parameter_unknown");
+         Cfg.Close;
+      end if;
+d166 7
+a172 9
+      Log.Msg ("Trailing comment preservation test");
+      if Cfg.Open ("dontdelete.me") then
+         Cfg.Set ("Section_1", "Parameter_11", "New_Value: " &
+                  To_String (Prg.Time_Stamp));
+         Cfg.Set ("Section_2", "Parameter_21", "New_Value: " &
+                  To_String (Prg.Time_Stamp));
+         Cfg.Set ("Section_3", "Parameter_31", "New_Value: " &
+                  To_String (Prg.Time_Stamp));
+         Cfg.Close;
+a173 3
+      Log.Line;
+   else
+      Prg.Set_Exit_Status (2);
+a174 98
+   Log.Set_Disk (False);
+
+   ----------------------------------------------------------------------------
+
+   Log.Set_Task ("STEP 5");
+   Log.Title ("Memory reports demo");
+
+   if Memory_Reports then
+      Log.Line; Log.Title ("");
+      Log.Title ("Memory: Report");
+      Log.Title (""); Log.Line;
+      Sys.Get_Memory_Dump (1);
+
+      Log.Line; Log.Title ("");
+      Log.Title ("Memory: Allocations_Count");
+      Log.Title (""); Log.Line;
+      Sys.Get_Memory_Dump (1, Sys.Allocations_Count);
+
+      Log.Line; Log.Title ("");
+      Log.Title ("Memory: Sort_Total_Allocs");
+      Log.Title (""); Log.Line;
+      Sys.Get_Memory_Dump (1, Sys.Sort_Total_Allocs);
+
+      Log.Line; Log.Title ("");
+      Log.Title ("Memory: Marked_Blocks");
+      Log.Title (""); Log.Line;
+      Sys.Get_Memory_Dump (1, Sys.Marked_Blocks);
+      Log.Line;
+      Log.Title ("Memory: Reporting Ada and All languages ");
+      Log.Line;
+      Log.Msg (Sys.Get_Alloc_Ada);
+      Log.Msg (Sys.Get_Alloc_All);
+      Log.Line;
+   else
+      Log.Msg ("Use -m to display memory reports...");
+      Log.Line;
+   end if;
+
+   ----------------------------------------------------------------------------
+
+   Log.Set_Task ("STEP 6");
+   Log.Title ("Shell execute demo");
+
+   Log.Line;
+   Log.Msg ("Execute cat test.cfg and display results.");
+   Log.Line;
+
+   declare
+      SE_Result : Integer := 0;
+      SE_Output : VString := +"";
+   begin
+      Sys.Shell_Execute ("cat test.cfg", SE_Result, SE_Output);
+      if SE_Result = 0 then
+         Tio.Put_Line (SE_Output);
+         Tio.Line;
+      end if;
+   end;
+
+   declare
+      SE_Result : Integer := 0;
+   begin
+      Sys.Shell_Execute ("find test.cfg", SE_Result);
+      Tio.Put_Line (SE_Result);
+      Tio.Line;
+   end;
+
+   declare
+      SE_Result : Integer := 0;
+   begin
+      Sys.Shell_Execute ("find i.dont.exist", SE_Result);
+      Tio.Put_Line (SE_Result);
+      Tio.Line;
+   end;
+
+   declare
+      type Money is delta 0.01 digits 10;
+   begin
+      Tio.Put_Line ("Money is delta 0.01 digits 10 - Money'Image (Money'Last): " & Money'Image (Money'Last));
+   end;
+   Log.Line;
+
+   ----------------------------------------------------------------------------
+
+   Log.Set_Task ("STEP 7");
+   Log.Title ("cURL demo");
+
+   Log.Line;
+   Log.Msg ("Low level functions - Simple test");
+   Log.Line;
+
+   Log.Line;
+   Log.Set_Task ("END");
+   Log.Title ("End of demo");
+   Log.Line;
+
+   -- ------------------------------------------------------------------/\-----
+   --  Raise_Exception; --  < Uncomment for trigger exception test     /!!\
+   -- ----------------------------------------------------------------/-!!-\---
+a176 10
+
+   --  Invalid switches
+   --when GCL.Invalid_Switch =>
+  --    Log.Line;
+  --    GOL.OS_Exit (2);
+
+   --  -h or --help switches
+  -- when GCL.Exit_From_Command_Line =>
+  --    Log.Line;
+   --   GOL.OS_Exit (1);
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d18 14
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d60 1
+d88 15
+a102 4
+    if (Vst.Index ( To_Vstring (ACL.Argument (A)), +"-P") = 1) then
+      Gprbuild_Project := Slice ( To_Vstring (ACL.Argument (A)), 3, Vst.Length (To_Vstring (ACL.Argument (A))) );
+    end if;
+  end loop;
+a103 1
+  Log.Set_Debug (True);
+a104 2
+  Log.Dbg ("Gprbuild_Parameters: " & Gprbuild_Parameters);
+  Log.Dbg ("Gprbuild_Project: " & Gprbuild_Project);
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d37 1
+a37 1
+with GNAT.OS_Lib;
+d39 1
+a39 1
+with Interfaces.C.Strings; use Interfaces.C.Strings;
+a42 1
+with v20.Crl; use v20.Crl; -- for operators
+d53 1
+a53 1
+   package GOL renames GNAT.OS_Lib;
+a107 17
+   Log.Set_Task ("STEP 0");
+   Log.Title ("Get option demo");
+   Log.Line;
+
+   if String_Option.all /= "" then
+      Log.Msg ("Switch -s:        : " & String_Option.all);
+   end if;
+   if Long_Option /= 0 then
+      Log.Msg ("Switch -l --long= : " & To_VString (Long_Option));
+   end if;
+
+   if (String_Option.all = "") and (Long_Option = 0) then
+      Log.Msg ("Try ./test -h or --help");
+      Log.Msg ("Try ./test -badoption");
+      Log.Msg ("Try ./test -s=toto --long=123456 -1 -2 (or -12 instead)");
+   end if;
+   Log.Line;
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@d88 2
+a89 2
+    if (Vst.Index ( ACL.Argument (A), +"-P") = 1) then
+      Gprbuild_Project := Slice ( ACL.Argument (A), 3, Vst.Length (ACL.Argument (A)) );
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d88 2
+a89 2
+    if (Index ( ACL.Argument (A), +"-P") = 1) then
+      Gprbuild_Project := Slice ( ACL.Argument (A), 3, length (ACL.Argument (A)) );
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d36 1
+d88 1
+a88 1
+    if (Index ( ACL.Argument (A), "-P") = 1) then
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d64 1
+a64 1
+   Config : GCL.Command_Line_Configuration;
+d88 1
+a88 1
+      Gprbuild_Project := Slice ( Argument (A), 3, length (ACL.Argument (A)) );
+d423 3
+a425 3
+   when GCL.Invalid_Switch =>
+      Log.Line;
+      GOL.OS_Exit (2);
+d428 3
+a430 3
+   when GCL.Exit_From_Command_Line =>
+      Log.Line;
+      GOL.OS_Exit (1);
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d35 1
+a35 1
+with GNAT.Command_Line;
+d52 1
+a52 1
+   package GCL renames GNAT.Command_Line;
+d85 4
+a88 4
+   for A in 1 .. GCL.Argument_Count loop
+    Gprbuild_Parameters := Gprbuild_Parameters & GCL.Argument (A) & " ";
+    if (Index ( GCL.Argument (A), "-P") = 1) then
+      Gprbuild_Project := Slice ( Argument (A), 3, length (GCL.Argument (A)) );
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d12 3
+a14 1
+--  V20 library project file
+d17 9
+a25 1
+--  Build application and documentation
+d28 1
+d56 5
+d83 8
+a90 2
+   --  STEP 0
+   --  Argument processing demo
+d92 1
+a92 20
+   GCL.Set_Usage (Config,
+                  Usage => "[switches] [arguments] overview",
+                  Help =>  "This is the short help text");
+
+   GCL.Define_Switch (Config, Cursor_Animation_1'Access,
+                      Switch => "-1",
+                      Help => "Enable first cursor animation");
+   GCL.Define_Switch (Config, Cursor_Animation_2'Access,
+                      Switch => "-2",
+                      Help => "Enable second cursor animation");
+   GCL.Define_Switch (Config, Memory_Reports'Access,
+                      Switch => "-m",
+                      Help => "Enable memory reports");
+   GCL.Define_Switch (Config, String_Option'Access,
+                      Switch => "-s=", --  "-s:" to avoid "=" assignment
+                      Help => "Enable option -s. Arg is a string ");
+   GCL.Define_Switch (Config, Long_Option'Access,
+                      Switch => "-l=",
+                      Long_Switch => "--long=",
+                      Help => "Enable long option. Arg is an integer");
+d94 2
+a95 1
+   GCL.Getopt (Config); --  Command line processing
+@

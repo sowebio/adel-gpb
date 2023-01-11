@@ -1,0 +1,2 @@
+sys:1: Warning: g_variant_new_string: assertion 'g_utf8_validate (string, -1, NULL)' failed
+sys:1: Warning: g_variant_new_string: assertion 'g_utf8_validate (string, -1, NULL)' failed

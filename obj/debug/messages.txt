@@ -1,0 +1,38 @@
+gprbuild -XGpb_Beep=bell -XGpb_Scp=root@i51c1.genesix.org:/etc/gnx -Xaide_Build=Debug -d -P/home/sr/Seafile/Sowebio/informatique/github/gpb/gpb.gpr -XGpb_Build=Debug -s
+
+Gprbuild stub for GnatStudio
+Copyright (C) Sowebio SARL 2020-2022, according to GPLv3.
+gprbuild v0.4 - v20 v0.11 - build 2022-06-13 11:16:46
+
+Gprbuild_Parameters: -Xaide_Build=Debug -d -P/home/sr/Seafile/Sowebio/informatique/github/gpb/gpb.gpr -XGpb_Build=Debug -s 
+Gprbuild_Project: /home/sr/Seafile/Sowebio/informatique/github/gpb/gpb.gpr
+Gprbuild_Gpb_Scp: root@i51c1.genesix.org:/etc/gnx
+Gprbuild_Gpb_Beep: bell
+
+Compile
+   [Ada]          gpb.adb
+   [Ada]          v20.adb
+   [Ada]          v20-fls.adb
+   [Ada]          v20-log.adb
+   [Ada]          v20-prg.adb
+   [Ada]          v20-sys.adb
+   [Ada]          v20-tio.adb
+   [Ada]          v20-vst.adb
+v20-tio.adb:233:24: warning: formal parameter "Permissions" is not referenced [-gnatwu]
+v20-tio.adb:329:14: warning: "File_Handle" modified by call, but value might not be referenced [-gnatwm]
+   [Ada]          gnatcoll.ads
+   [Ada]          gnatcoll-memory.adb
+v20-vst.adb:26:09: warning: unit "v20.Log" is not referenced [-gnatwu]
+Bind
+   [gprbind]      gpb.bexch
+   [Ada]          gpb.ali
+Link
+   [link]         gpb.adb
+
+Gprbuild_Binary_Orig: /home/sr/Seafile/Sowebio/informatique/github/gpb/bin/gprbuild
+Gprbuild_Binary_Dest: root@i51c1.genesix.org:/etc/gnx/gprbuild
+
+SCP copy (3078Kb) in progress...
+SCP copy (1s @ 3078Kbps) successful.
+
+[2022-07-16 18:58:50] process terminated successfully, elapsed time: 04.27s
